@@ -4,6 +4,7 @@
 # TODO: (Read detailed instructions in the Readme file)
 
 import re
+import string
 
 #This is a function that checks if a text qualifies as a sentence. You do not need to modify this!
 def is_sentence(text):
@@ -24,3 +25,38 @@ def is_sentence(text):
         return False
 
     return True
+
+def get_sentence():
+    while True:
+        sentence = input("Enter a sentence: ").strip()
+        if is_sentence(sentence):
+            return sentence
+        else:
+            print("Invalid sentence, must start with a capital and end with proper punctuation.")
+
+def calculate_frequencies(sentence):
+    clean = sentence.translate(str.maketrans('', '', string.punctuation))
+    words = clean.lower().split()
+    word_list = []
+    frequency_list = []
+    for word in words:
+        if word in word_list:
+            index = word_list.index(word)
+            frequency_list[index] += 1
+        else:
+            word_list.append(word)
+            frequency_list.append(1)
+    return word_list, frequency_list
+
+def print_frequencies(words, frequencies):
+    print("\n")
+    print("Word Frequencies")
+    for word, freq in zip(words, frequencies):
+        print(word + ":", freq)
+
+def main():
+    sentence = get_sentence
+    words, frequencies = calculate_frequencies(sentence)
+    print_frequencies(words, frequencies)
+
+main()
