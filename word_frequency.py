@@ -11,19 +11,15 @@ def is_sentence(text):
     # Check if the text is not empty and is a string
     if not isinstance(text, str) or not text.strip():
         return False
-
     # Check for starting with a capital letter
     if not text[0].isupper():
         return False
-
     # Check for ending punctuation
     if not re.search(r'[.!?]$', text):
         return False
-
     # Check if it contains at least one word (non-whitespace characters)
     if not re.search(r'\w+', text):
         return False
-
     return True
 
 def get_sentence():
@@ -32,13 +28,15 @@ def get_sentence():
         if is_sentence(sentence):
             return sentence
         else:
-            print("Invalid sentence, must start with a capital and end with proper punctuation.")
+            print("Invalid sentence. Must start with a capital and end with '.', '?', or '!'.")
 
 def calculate_frequencies(sentence):
-    clean = sentence.translate(str.maketrans('', '', string.punctuation))
+    clean = re.sub(r"[^\w\s']", '', sentence)
     words = clean.lower().split()
+
     word_list = []
     frequency_list = []
+
     for word in words:
         if word in word_list:
             index = word_list.index(word)
@@ -46,16 +44,16 @@ def calculate_frequencies(sentence):
         else:
             word_list.append(word)
             frequency_list.append(1)
+
     return word_list, frequency_list
 
 def print_frequencies(words, frequencies):
-    print("\n")
-    print("Word Frequencies")
+    print("\nWord Frequencies:")
     for word, freq in zip(words, frequencies):
         print(word + ":", freq)
 
 def main():
-    sentence = get_sentence
+    sentence = get_sentence()
     words, frequencies = calculate_frequencies(sentence)
     print_frequencies(words, frequencies)
 
